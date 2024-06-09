@@ -1,0 +1,166 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  text-transform: capitalize;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: monospace;
+}
+
+[data-theme="light"] {
+  /* Primary Colors  */
+  --primary-100: rgb(255, 255, 255);
+  --primary-200: rgb(245, 245, 245);
+  --primary-300: rgb(230, 230, 230);
+  --primary-400: rgb(200, 200, 200);
+  --primary-500: rgb(170, 170, 170);
+  --primary-600: rgb(140, 140, 140);
+  --primary-700: rgb(115, 115, 115);
+  --primary-800: rgb(85, 85, 85);
+  --primary-900: rgb(55, 55, 55);
+  --primary-1000: rgb(25, 25, 25);
+  /*  Secondary Colors */
+  --secondary-50: #f3e5f5;
+  --secondary-100: #e1bee7;
+  --secondary-200: #ce93d8;
+  --secondary-300: #ba68c8;
+  --secondary-400: #ab47bc;
+  --secondary-500: #9c27b0;
+  --secondary-600: #8e24aa;
+  --secondary-700: #7b1fa2;
+  --secondary-800: #6a1b9a;
+  --secondary-900: #4a148c;
+  /* Info Colors */
+  --info-50: #e8f5e9;
+  --info-100: #c8e6c9;
+  --info-200: #a5d6a7;
+  --info-300: #81c784;
+  --info-400: #66bb6a;
+  --info-500: #4caf50;
+  --info-600: #43a047;
+  --info-700: #388e3c;
+  --info-800: #2e7d32;
+  --info-900: #1b5e20;
+  /* Danger Colors */
+  --danger-50: #ffebee;
+  --danger-100: #ffcdd2;
+  --danger-200: #ef9a9a;
+  --danger-300: #e57373;
+  --danger-400: #ef5350;
+  --danger-500: #f44336;
+  --danger-600: #e53935;
+  --danger-700: #d32f2f;
+  --danger-800: #c62828;
+  --danger-900: #b71c1c;
+  /* Font sizes */
+  --font-p1: 1.25rem;
+  --font-p2: calc(1.25rem + 0.25rem);
+  --font-p3: calc(1.5rem + 0.5rem);
+  --font-p4: calc(1.5rem + 0.75rem);
+  --font-p5: calc(1.5rem + 1rem);
+  --font-p6: calc(1.5rem + 1.25rem);
+  --font-p7: calc(1.5rem + 1.5rem);
+  --font-p8: calc(1.5rem + 1.75rem);
+  --font-p9: calc(1.5rem + 2rem);
+  --font-p10: calc(1.5rem + 2.25rem);
+  --font-p11: calc(1.5rem + 2.5rem);
+  --font-p12: calc(1.5rem + 2.75rem);
+  --font-p13: calc(1.5rem + 3rem);
+  --font-p14: calc(1.5rem + 3.25rem);
+  --font-p15: calc(1.5rem + 3.5rem);
+  /* Heading sizes */
+  --h1: var(--font-h1);
+  --h2: var(--font-h2);
+  --h3: var(--font-h3);
+  --h4: var(--font-h4);
+  --h5: var(--font-h5);
+  --h6: var(--font-h6);
+  --p1: var(--font-p1);
+  --p2: var(--font-p2);
+  --p3: var(--font-p3);
+  --p4: var(--font-p4);
+  --p5: var(--font-p5);
+  --p6: var(--font-p6);
+}
+
+[data-theme="dark"] {
+  /* Primary Colors */
+  --primary-1000: rgb(255, 255, 255);
+  --primary-900: rgb(245, 245, 245);
+  --primary-800: rgb(230, 230, 230);
+  --primary-700: rgb(200, 200, 200);
+  --primary-600: rgb(170, 170, 170);
+  --primary-500: rgb(140, 140, 140);
+  --primary-400: rgb(115, 115, 115);
+  --primary-300: rgb(85, 85, 85);
+  --primary-200: rgb(55, 55, 55);
+  --primary-100: rgb(25, 25, 25);
+
+  /* Secondary Colors */
+  --secondary-900: #f3e5f5;
+  --secondary-800: #e1bee7;
+  --secondary-700: #ce93d8;
+  --secondary-600: #ba68c8;
+  --secondary-500: #ab47bc;
+  --secondary-400: #9c27b0;
+  --secondary-300: #8e24aa;
+  --secondary-200: #7b1fa2;
+  --secondary-100: #6a1b9a;
+  --secondary-50: #4a148c;
+
+  /* Info Colors */
+  --info-900: #e8f5e9;
+  --info-800: #c8e6c9;
+  --info-700: #a5d6a7;
+  --info-600: #81c784;
+  --info-500: #66bb6a;
+  --info-400: #4caf50;
+  --info-300: #43a047;
+  --info-200: #388e3c;
+  --info-100: #2e7d32;
+  --info-50: #1b5e20;
+
+  /* Danger Colors */
+  --danger-900: #ffebee;
+  --danger-800: #ffcdd2;
+  --danger-700: #ef9a9a;
+  --danger-600: #e57373;
+  --danger-500: #ef5350;
+  --danger-400: #f44336;
+  --danger-300: #e53935;
+  --danger-200: #d32f2f;
+  --danger-100: #c62828;
+  --danger-50: #b71c1c;
+  /* Font sizes */
+  --font-p1: 1.25rem;
+  --font-p2: calc(1.25rem + 0.25rem);
+  --font-p3: calc(1.5rem + 0.5rem);
+  --font-p4: calc(1.5rem + 0.75rem);
+  --font-p5: calc(1.5rem + 1rem);
+  --font-p6: calc(1.5rem + 1.25rem);
+  --font-p7: calc(1.5rem + 1.5rem);
+  --font-p8: calc(1.5rem + 1.75rem);
+  --font-p9: calc(1.5rem + 2rem);
+  --font-p10: calc(1.5rem + 2.25rem);
+  --font-p11: calc(1.5rem + 2.5rem);
+  --font-p12: calc(1.5rem + 2.75rem);
+  --font-p13: calc(1.5rem + 3rem);
+  --font-p14: calc(1.5rem + 3.25rem);
+  --font-p15: calc(1.5rem + 3.5rem);
+  /* Heading sizes */
+  --h1: var(--font-h1);
+  --h2: var(--font-h2);
+  --h3: var(--font-h3);
+  --h4: var(--font-h4);
+  --h5: var(--font-h5);
+  --h6: var(--font-h6);
+  --p1: var(--font-p1);
+  --p2: var(--font-p2);
+  --p3: var(--font-p3);
+  --p4: var(--font-p4);
+  --p5: var(--font-p5);
+  --p6: var(--font-p6);
+}
