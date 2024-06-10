@@ -1,26 +1,25 @@
 import { useState } from "react";
 import { FormState } from "../../Components/login/index.type";
 import Form from "../../Components/login/form";
-import { useAuth } from "../../Components/Common/Config/Auth/Authentication";
+import { useLogin } from "../../hooks/Login/use-http";
 
 const Page = () => {
   const [form, setForm] = useState<FormState>({
-    email: "",
+    username: "",
     password: "",
   });
 
-  const { login } = useAuth();
+  const { username, password } = form;
+
+  const { handleLogin } = useLogin();
 
   const handleUpdateForm = (key: keyof FormState, value: string): void => {
     setForm({ ...form, [key]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    const { email, password } = form;
-
-    login({ email, password });
+    handleLogin(username, password);
   };
 
   return (

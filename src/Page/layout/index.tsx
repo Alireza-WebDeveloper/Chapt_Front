@@ -18,6 +18,7 @@ const client = new ApolloClient({
     },
   },
 });
+
 const Layout = () => {
   return (
     <ApolloProvider client={client}>

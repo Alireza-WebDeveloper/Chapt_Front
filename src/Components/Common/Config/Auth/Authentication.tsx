@@ -3,12 +3,12 @@ import React, { createContext, useContext, useState, ReactNode } from "react";
 
 // !! Type
 interface LogState {
-  email: string;
+  username: string;
   password: string;
 }
 
 interface UserState {
-  email: string;
+  username: string;
   name: string;
 }
 

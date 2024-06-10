@@ -5,7 +5,7 @@ import ButtonContainer from "../Common/Main/button-container";
 
 interface FormProps {
   form: FormState;
-  handleSubmit(e: ReactForm): void;
+  handleSubmit(e: React.FormEvent<HTMLFormElement>): void;
   handleUpdateForm(key: keyof FormState, value: string): void;
 }
 const Form: React.FC<FormProps> = ({
@@ -16,11 +16,11 @@ const Form: React.FC<FormProps> = ({
   return (
     <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
       <TextField
-        name="email"
-        type="email"
-        label="email"
-        value={form.email}
-        onChange={(e) => handleUpdateForm("email", e.target.value)}
+        name="username"
+        type="text"
+        label="username"
+        value={form.username}
+        onChange={(e) => handleUpdateForm("username", e.target.value)}
       />
       <TextField
         name="password"
@@ -30,7 +30,7 @@ const Form: React.FC<FormProps> = ({
         onChange={(e) => handleUpdateForm("password", e.target.value)}
       />
       <ButtonContainer color="blue" fontSize="large" type="submit">
-        submit
+        login
       </ButtonContainer>
     </form>
   );
