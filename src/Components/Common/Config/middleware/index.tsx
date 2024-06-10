@@ -1,6 +1,6 @@
 import React from "react";
 import { useLocation, Navigate } from "react-router-dom";
-import { useAuth } from "../Auth/Authentication";
+import { useGetProfile } from "../../../../hooks/profile/use-http";
 
 interface MiddlewareProps {
   children: React.ReactNode;
@@ -8,7 +8,10 @@ interface MiddlewareProps {
 
 const Middleware: React.FC<MiddlewareProps> = ({ children }) => {
   const location = useLocation();
-  const { isAuthenticated } = useAuth();
+
+  const { data } = useGetProfile();
+
+  const isAuthenticated = data?.getProfile.data.user._id;
 
   if (location.pathname.startsWith("/login")) {
     if (isAuthenticated) {

@@ -6,14 +6,34 @@ import CustomLink from "../../Components/Common/Main/CustomLink";
 import Footer from "../../Components/Common/Footer";
 import AuthProvider from "../../Components/Common/Config/Auth/Authentication";
 import Middleware from "../../Components/Common/Config/middleware";
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  createHttpLink,
+} from "@apollo/client";
+
+const httpLink = createHttpLink({
+  uri: "http://localhost:8000/graphql",
+});
+
+const authLink = setContext((_, { headers }) => {
+  const user_id = localStorage.getItem("user_id");
+  return {
+    headers: {
+      ...headers,
+      Authorization: user_id ? `${JSON.parse(user_id)}` : "",
+    },
+  };
+});
 
 const client = new ApolloClient({
-  uri: "http://localhost:8000/graphql",
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
   defaultOptions: {
     query: {
-      fetchPolicy: "network-only",
+      fetchPolicy: "cache-only",
       pollInterval: 10000,
     },
   },

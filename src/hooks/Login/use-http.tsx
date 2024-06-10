@@ -1,8 +1,8 @@
 import { gql, useMutation } from "@apollo/client";
+import { LoginUserResponse } from "./use-http.type";
 
-// Define the fragment for reusability
-const logUserMutation = gql`
-  mutation login($username: String, $password: String) {
+const LOGIN_MUTATION = gql`
+  mutation Login($username: String!, $password: String!) {
     login(username: $username, password: $password) {
       message
       status
@@ -17,16 +17,24 @@ const logUserMutation = gql`
 `;
 
 const useLogin = () => {
-  const [mutate] = useMutation(logUserMutation);
+  const [loginMutation] = useMutation<LoginUserResponse>(LOGIN_MUTATION);
 
   const handleLogin = async (username: string, password: string) => {
-    await mutate({
-      variables: { username, password },
-      update: (cache, { data }) => {
-        // console.log(`Cache Data`, cache);
-        console.log(`Data`, data);
-      },
-    });
+    try {
+      const { data } = await loginMutation({
+        variables: { username, password },
+      });
+
+      const userId = data?.login?.data?.user?._id;
+      if (userId) {
+        localStorage.setItem("user_id", JSON.stringify(userId));
+        window.location.href = "/";
+      } else {
+        console.error("User ID not found in login response");
+      }
+    } catch (error) {
+      console.error("Error occurred during login:", error);
+    }
   };
 
   return { handleLogin };
