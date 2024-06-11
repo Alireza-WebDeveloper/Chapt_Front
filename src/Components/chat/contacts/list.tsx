@@ -2,29 +2,11 @@ import React from "react";
 import Item from "./item";
 
 interface ListProps {
-  setSelectContact(value: any): void;
+  setSelectContact(value: { username: string; _id: string }): void;
+  contacts: { username: string; _id: string }[];
 }
 
-const contacts = [
-  {
-    _id: "1",
-    username: "fateme",
-  },
-  {
-    _id: "2",
-    username: "mohammad",
-  },
-  {
-    _id: "3",
-    username: "nazanin",
-  },
-  {
-    _id: "4",
-    username: "reza",
-  },
-];
-
-const List: React.FC<ListProps> = ({ setSelectContact }) => {
+const List: React.FC<ListProps> = ({ setSelectContact, contacts }) => {
   return (
     <div className="flex flex-col space-y-4 bg-primary-300 h-full p-3 rounded">
       {contacts.map((contact, index) => {
