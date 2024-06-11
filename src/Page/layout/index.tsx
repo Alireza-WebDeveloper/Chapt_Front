@@ -48,11 +48,16 @@ const Layout = () => {
             <main className="  p-2 bg-gray-200 bg-primary-100 text-primary-800  min-h-[100vh] ">
               {<Outlet />}
             </main>
-            <Footer>
-              <p>
-                Follow us on social media for the latest updates and promotions.
-              </p>
-            </Footer>
+            {window.location.pathname.startsWith("/chat") ? (
+              ""
+            ) : (
+              <Footer>
+                <p>
+                  Follow us on social media for the latest updates and
+                  promotions.
+                </p>
+              </Footer>
+            )}
           </ThemeProvider>
         </Middleware>
       </AuthProvider>

@@ -17,7 +17,7 @@ const Middleware: React.FC<MiddlewareProps> = ({ children }) => {
     if (isAuthenticated) {
       return <Navigate to="/" />;
     }
-  } else if (location.pathname.startsWith("/dashboard")) {
+  } else if (location.pathname.startsWith("/chat")) {
     if (!isAuthenticated) {
       return <Navigate to="/login" />;
     }

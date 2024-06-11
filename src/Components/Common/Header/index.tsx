@@ -20,7 +20,8 @@ const Header: React.FC<HeaderProps> = () => {
     <div className="flex p-4 bg-primary-200 items-center justify-around w-full flex-wrap">
       <div className="flex gap-10 flex-wrap">
         <ToggleTheme />
-        <CustomLink to="/">home</CustomLink>
+        <CustomLink to="/">home</CustomLink>{" "}
+        <CustomLink to="/chat">chat</CustomLink>
         {hiddenProfile && <CustomLink to="/login">login</CustomLink>}
       </div>
 
