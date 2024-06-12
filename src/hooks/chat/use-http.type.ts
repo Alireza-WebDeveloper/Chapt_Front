@@ -42,6 +42,10 @@ export interface QueryResponse {
   getMessages: Message[];
 }
 
+export interface MutationResponse {
+  sendMessage: Message[];
+}
+
 export interface ContactState {
   _id: string;
   username: string;

@@ -1,6 +1,10 @@
 import React from "react";
 import { QueryResponse } from "../../../hooks/chat/use-http.type";
 import { useGetProfile } from "../../../hooks/profile/use-http";
+import {
+  convertTimestampToTime,
+  formatDate,
+} from "../../Common/Main/Helpers/date";
 
 interface ChatBoxProps {
   messages: QueryResponse;
@@ -25,8 +29,20 @@ const ChatBox: React.FC<ChatBoxProps> = ({ messages }) => {
           : "ml-auto bg-blue-200";
 
         return (
-          <section key={index} className={`p-2 rounded-lg ${messageClass}`}>
-            {message.content}
+          <section
+            key={index}
+            className={`p-2 flex flex-col space-y-1  rounded-lg ${messageClass}`}
+          >
+            <p className="text-sm break-words">{message.content}</p>
+            <section className="flex flex-col">
+              <span className="w-[100px] h-[1px] bg-gray-400"></span>
+              <span className="text-[10px] text-gray-300">
+                {convertTimestampToTime(Number(message?.timestamp))}
+              </span>
+              <span className="text-[10px] text-gray-300">
+                {formatDate(Number(message?.timestamp))}
+              </span>
+            </section>
           </section>
         );
       })}

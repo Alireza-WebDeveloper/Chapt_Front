@@ -15,7 +15,7 @@ const GET_MESSAGES: DocumentNode = gql`
   }
 `;
 
-const SEND_MESSAGE = gql`
+const SEND_MESSAGE: DocumentNode = gql`
   mutation sendMessage(
     $user_send: String
     $user_recive: String
@@ -66,7 +66,9 @@ const useGetMessage = ({
 };
 
 const useSendMessage = () => {
-  const [mutate] = useMutation<Message>(SEND_MESSAGE);
+  const [mutate] = useMutation<{
+    sendMessage: Message;
+  }>(SEND_MESSAGE);
 
   const handleMutate = async (
     user_send: string,
@@ -76,11 +78,26 @@ const useSendMessage = () => {
     await mutate({
       variables: { user_send, user_recive, content },
       update: (cache, { data }) => {
-        console.log(`Cache Data`, cache);
-        console.log(`Data`, data);
+        // 1 ) Get Messages From (useGetMessages Query)
+        const existingMessages = cache.readQuery<QueryResponse, QueryVariables>(
+          {
+            query: GET_MESSAGES,
+            variables: { user_send, user_recive },
+          }
+        );
+        // 2 ) Set Messages From SendMassages To (useGetMessages With Query )
+        if (existingMessages && data?.sendMessage) {
+          cache.writeQuery<QueryResponse, QueryVariables>({
+            query: GET_MESSAGES,
+            variables: { user_send, user_recive },
+            data: {
+              getMessages: [...existingMessages.getMessages, data.sendMessage],
+            },
+          });
+        }
       },
-      onError: (error: any) => {
-        console.log(error);
+      onError: (error: Error) => {
+        alert(error.message);
       },
     });
   };
