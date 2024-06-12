@@ -12,7 +12,7 @@ export interface User {
   username: string;
 }
 
-interface Message {
+export interface Message {
   _id: string;
   user_send: User;
   user_recive: User;

@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import List from "../../Components/chat/contacts/list";
 import ChatRoom from "../../Components/chat/chatroom";
 
 import { useGetUsers } from "../../hooks/user";
-import { useGetMessage } from "../../hooks/chat/use-http";
+import { useGetMessage, useSendMessage } from "../../hooks/chat/use-http";
 import { useGetProfile } from "../../hooks/profile/use-http";
 import { ContactState } from "../../hooks/chat/use-http.type";
 
@@ -15,11 +15,11 @@ const Page: React.FC<PageProps> = () => {
   // !! Fetch Users and Profile
   const { data: users, loading: loadingGetUsers } = useGetUsers();
   const { data: profile } = useGetProfile();
-
+  const { handleMutate } = useSendMessage();
   // !! Fetch Messages
   const {
     data: messages,
-    refetch,
+
     loading: loadingGetMessages,
   } = useGetMessage({
     user_send: profile?.getProfile.data.user._id || "",
@@ -28,14 +28,11 @@ const Page: React.FC<PageProps> = () => {
 
   // !! Handle Actions
   const handleSendMessage = (content: string) => {
-    // Logic for sending a message
-    const sendData = {
-      content,
-      user_send: profile?.getProfile.data.user._id,
-      user_recive: selectContact?._id,
-    };
-    console.log(sendData);
-    refetch();
+    const user_send = profile?.getProfile.data.user._id;
+    const user_recive = selectContact?._id;
+    console.log("YES");
+    const checkValidation = user_send && user_recive && content;
+    checkValidation && handleMutate(user_send, user_recive, content);
   };
   //  !! Variable
   const showLoadingGetUsers = loadingGetUsers && <>loading...</>;
