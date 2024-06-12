@@ -10,10 +10,6 @@ const GET_MESSAGES: DocumentNode = gql`
         _id
         username
       }
-      user_recive {
-        _id
-        username
-      }
       timestamp
     }
   }
@@ -27,19 +23,20 @@ const useGetMessage = ({
   user_send: string;
   user_recive: string;
 }) => {
-  const { loading, error, data } = useQuery<QueryResponse, QueryVariables>(
-    GET_MESSAGES,
-    {
-      variables: { user_send, user_recive },
-      skip: !user_send || !user_recive,
-      fetchPolicy: "cache-and-network",
-    }
-  );
+  const { loading, error, data, refetch } = useQuery<
+    QueryResponse,
+    QueryVariables
+  >(GET_MESSAGES, {
+    variables: { user_send, user_recive },
+    skip: !user_send || !user_recive,
+    fetchPolicy: "cache-and-network",
+  });
 
   return {
     loading,
     error,
     data,
+    refetch,
   };
 };
 
