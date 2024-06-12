@@ -1,7 +1,8 @@
 import { Outlet } from "react-router-dom";
 import Header from "../../Components/Common/Header";
 import { ThemeProvider } from "../../Components/Common/Config/Theme/index";
-
+import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
+import { createClient as createWsClient } from "graphql-ws";
 import Footer from "../../Components/Common/Footer";
 import AuthProvider from "../../Components/Common/Config/Auth/Authentication";
 import Middleware from "../../Components/Common/Config/middleware";
@@ -11,12 +12,15 @@ import {
   InMemoryCache,
   ApolloProvider,
   createHttpLink,
+  split,
 } from "@apollo/client";
-
+import { getMainDefinition } from "@apollo/client/utilities";
+// HTTP Link for queries and mutations
 const httpLink = createHttpLink({
   uri: "http://localhost:8000/graphql",
 });
 
+// Authentication link to add user ID to headers
 const authLink = setContext((_, { headers }) => {
   const user_id = localStorage.getItem("user_id");
   return {
@@ -27,8 +31,26 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
+// WebSocket Link for subscriptions
+const wsLink = new GraphQLWsLink(
+  createWsClient({
+    url: "ws://localhost:8000/graphql", // Note the ws protocol
+  })
+);
+
+// Function to check if the operation is a subscription
+const isSubscription = ({ query }: any) => {
+  const definition = getMainDefinition(query);
+  console.log(query);
+  return (
+    definition.kind === "OperationDefinition" &&
+    definition.operation === "subscription"
+  );
+};
+
+// Apollo Client setup
 const client = new ApolloClient({
-  link: authLink.concat(httpLink),
+  link: split(isSubscription, wsLink, authLink.concat(httpLink)),
   cache: new InMemoryCache(),
   defaultOptions: {
     query: {
@@ -37,7 +59,6 @@ const client = new ApolloClient({
     },
   },
 });
-
 const Layout = () => {
   return (
     <ApolloProvider client={client}>

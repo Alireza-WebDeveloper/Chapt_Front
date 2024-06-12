@@ -1,4 +1,10 @@
-import { useQuery, gql, DocumentNode, useMutation } from "@apollo/client";
+import {
+  useQuery,
+  gql,
+  DocumentNode,
+  useMutation,
+  useSubscription,
+} from "@apollo/client";
 import { Message, QueryResponse, QueryVariables } from "./use-http.type";
 
 // Query
@@ -40,6 +46,24 @@ const SEND_MESSAGE: DocumentNode = gql`
   }
 `;
 
+const MESSAGE_ADDED_SUBSCRIPTION = gql`
+  subscription MessageAdded {
+    messageAdded {
+      user_send {
+        _id
+        username
+      }
+      user_recive {
+        _id
+        username
+      }
+      _id
+      timestamp
+      content
+    }
+  }
+`;
+
 // Hook for getting messages
 const useGetMessage = ({
   user_send,
@@ -57,6 +81,19 @@ const useGetMessage = ({
     fetchPolicy: "cache-and-network",
   });
 
+  useSubscription(MESSAGE_ADDED_SUBSCRIPTION, {
+    onData: ({ client, data: newData }) => {
+      const newMessage = newData.data.messageAdded;
+
+      client.cache.modify({
+        fields: {
+          getMessages(existingMessages = []) {
+            return [...existingMessages, newMessage];
+          },
+        },
+      });
+    },
+  });
   return {
     loading,
     error,
@@ -86,15 +123,15 @@ const useSendMessage = () => {
           }
         );
         // 2 ) Set Messages From SendMassages To (useGetMessages With Query )
-        if (existingMessages && data?.sendMessage) {
-          cache.writeQuery<QueryResponse, QueryVariables>({
-            query: GET_MESSAGES,
-            variables: { user_send, user_recive },
-            data: {
-              getMessages: [...existingMessages.getMessages, data.sendMessage],
-            },
-          });
-        }
+        // if (existingMessages && data?.sendMessage) {
+        //   cache.writeQuery<QueryResponse, QueryVariables>({
+        //     query: GET_MESSAGES,
+        //     variables: { user_send, user_recive },
+        //     data: {
+        //       getMessages: [...existingMessages.getMessages, data.sendMessage],
+        //     },
+        //   });
+        // }
       },
       onError: (error: Error) => {
         alert(error.message);
