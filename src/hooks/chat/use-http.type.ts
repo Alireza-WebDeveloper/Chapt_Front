@@ -7,7 +7,7 @@ export interface QueryVariables {
   user_recive: string | null;
 }
 
-interface User {
+export interface User {
   _id: string;
   username: string;
 }
@@ -40,4 +40,9 @@ export interface MessageResponse {
 
 export interface QueryResponse {
   getMessages: Message[];
+}
+
+export interface ContactState {
+  _id: string;
+  username: string;
 }

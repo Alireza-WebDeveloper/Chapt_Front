@@ -2,22 +2,22 @@ import React from "react";
 import Profile from "./profile";
 import ChatBox from "./chat-box";
 import SendMessage from "./send-message";
+import { QueryResponse, User } from "../../../hooks/chat/use-http.type";
 
 interface ChatRoomProps {
   handleSendMessage(value: string): void;
+  messages: QueryResponse;
+  selectContact: User;
 }
 
-const messages = [
-  { content: "Hello!", sender: "user1", timestamp: "10:00 AM" },
-  { content: "Hi there!", sender: "user2", timestamp: "10:05 AM" },
-  { content: "How are you?", sender: "user1", timestamp: "10:10 AM" },
-  { content: "I am good, thanks!", sender: "user2", timestamp: "10:15 AM" },
-];
-
-const ChatRoom: React.FC<ChatRoomProps> = ({ handleSendMessage }) => {
+const ChatRoom: React.FC<ChatRoomProps> = ({
+  handleSendMessage,
+  messages,
+  selectContact,
+}) => {
   return (
     <div className="flex flex-col h-full bg-primary-200 p-3 rounded">
-      <Profile />
+      <Profile user_recive={selectContact} />
       <ChatBox messages={messages} />
       <SendMessage handleSendMessage={handleSendMessage} />
     </div>

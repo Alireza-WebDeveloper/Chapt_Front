@@ -14,6 +14,7 @@ const GET_MESSAGES: DocumentNode = gql`
         _id
         username
       }
+      timestamp
     }
   }
 `;
@@ -31,14 +32,14 @@ const useGetMessage = ({
     {
       variables: { user_send, user_recive },
       skip: !user_send || !user_recive,
-      fetchPolicy: "network-only",
+      fetchPolicy: "cache-and-network",
     }
   );
 
   return {
     loading,
     error,
-    messages: data,
+    data,
   };
 };
 
