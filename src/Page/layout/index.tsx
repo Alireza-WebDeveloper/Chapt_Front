@@ -20,13 +20,17 @@ const httpLink = createHttpLink({
   uri: "http://localhost:8000/graphql",
 });
 
+const getUser_id = () => {
+  const user_id = localStorage.getItem("user_id");
+  return user_id ? `${JSON.parse(user_id)}` : "";
+};
+
 // Authentication link to add user ID to headers
 const authLink = setContext((_, { headers }) => {
-  const user_id = localStorage.getItem("user_id");
   return {
     headers: {
       ...headers,
-      Authorization: user_id ? `${JSON.parse(user_id)}` : "",
+      Authorization: getUser_id(),
     },
   };
 });
@@ -34,7 +38,8 @@ const authLink = setContext((_, { headers }) => {
 // WebSocket Link for subscriptions
 const wsLink = new GraphQLWsLink(
   createWsClient({
-    url: "ws://localhost:8000/graphql", // Note the ws protocol
+    url: "ws://localhost:8000/graphql",
+    connectionParams: { Authorization: getUser_id() },
   })
 );
 

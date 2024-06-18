@@ -81,6 +81,9 @@ const useGetMessage = ({
     fetchPolicy: "cache-and-network",
   });
 
+  // 1 ) Web Socket Subscription
+  // 2 ) با یک بار اجرا شدن هر آپدیت و بروزرسانی انجام شود دیتاها رو گرفته و اضافه و ... انجام می دهد
+
   useSubscription(MESSAGE_ADDED_SUBSCRIPTION, {
     onData: ({ client, data: newData }) => {
       const newMessage = newData.data.messageAdded;
@@ -116,12 +119,12 @@ const useSendMessage = () => {
       variables: { user_send, user_recive, content },
       update: (cache, { data }) => {
         // 1 ) Get Messages From (useGetMessages Query)
-        const existingMessages = cache.readQuery<QueryResponse, QueryVariables>(
-          {
-            query: GET_MESSAGES,
-            variables: { user_send, user_recive },
-          }
-        );
+        // const existingMessages = cache.readQuery<QueryResponse, QueryVariables>(
+        //   {
+        //     query: GET_MESSAGES,
+        //     variables: { user_send, user_recive },
+        //   }
+        // );
         // 2 ) Set Messages From SendMassages To (useGetMessages With Query )
         // if (existingMessages && data?.sendMessage) {
         //   cache.writeQuery<QueryResponse, QueryVariables>({
